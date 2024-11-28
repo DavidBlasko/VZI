@@ -3,7 +3,7 @@ from collections import deque
 
 class Node:
     def __init__(self, vertice_data):
-        self.vertice_data = vertice_data # number in dedicated vertice, also named vertice_data
+        self.vertice_data = vertice_data # number in dedicated vertice, often named KEY
         self.left = None # left child
         self.right = None # right child
         self.height = 1
@@ -30,7 +30,7 @@ class AVLTree:
                 x = x.left
             else:
                 x = x.right
-        return x
+        return x.vertice_data if x else 'Number not found'
     
     def left_rotate(self, node): # rotating tree vertices left with time complexity O(1)
         #    A                  B
@@ -131,7 +131,7 @@ class AVLTree:
         
         return root
     
-    def print_tree_graph(self):
+    def print_tree_graph(self): # print func to visualize tree in console by levels
         if not self.root:
             print("Fail, tree is empty.")
             return
@@ -146,11 +146,11 @@ class AVLTree:
 
             if level > current_level:
                 # print the nodes of the previous level
-                print(f"**Level {current_level}:**", " ".join(level_output))
+                print(f"Level {current_level}:", " ".join(level_output))
                 level_output = []
                 current_level = level
 
-            # add current node data or "N" for null to the level output
+            # add current node data or "N" for None to the level output
             level_output.append(str(node.vertice_data) if node else "N")
 
             # add children to the queue
@@ -160,10 +160,8 @@ class AVLTree:
 
         # print the last level
         if level_output:
-            print(f"**Level {current_level}:**", " ".join(level_output))
+            print(f"Level {current_level}:", " ".join(level_output))
 
-def finding_vertice_data(result):
-    return result.vertice_data if result else "Nothing found"
 
 if __name__ == "__main__":
     avl = AVLTree()   
@@ -175,18 +173,18 @@ if __name__ == "__main__":
     # AVL printed out
     avl.print_tree_graph()
     result = avl.search(125)
-    print(f'Search for 125: {finding_vertice_data(result)}')
+    print(f'Search for 125: {result}')
 
     # AVL test for deleting vertice
     avl.delete_vertice(avl.root, 125)
     print('\nVertice with data 125 deleted.')
     avl.print_tree_graph()
     result = avl.search(125)
-    print(f'Search for 125: {finding_vertice_data(result)}')
+    print(f'Search for 125: {result}')
 
     # AVL test for inserting vertice
     avl.insert_vertice(avl.root, 123)
     print('\nVertice with data 123 inserted.')
     avl.print_tree_graph()
     result = avl.search(123)
-    print(f'Search for 123: {finding_vertice_data(result)}')
+    print(f'Search for 123: {result}')
